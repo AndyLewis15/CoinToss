@@ -1,35 +1,72 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
-import java.util.Scanner;
-public class CoinToss {
 
-    public static void main(String[] args) {
-        Scanner scnr = new Scanner(System.in);
+public class CoinToss extends JFrame {
+    private JLabel coinLabel;
+    private ImageIcon headsIcon;
+    private ImageIcon tailsIcon;
+
+    public CoinToss() {
+        // Create an instance of the Random class
         Random random = new Random();
 
-        System.out.println("Enter how many flips you want:");
-        int userTosses = scnr.nextInt();
-
-        int numTosses = userTosses;
-
-        int headsCount = 0;
-        int tailsCount = 0;
+        // Load the heads and tails images
+        headsIcon = new ImageIcon("Heads.jpg"); // Provide the path to the heads image
+        tailsIcon = new ImageIcon("Tails.jpg"); // Provide the path to the tails image
 
 
-        for (int i = 0; i < numTosses; i++) {
-            int result = random.nextInt(2); // 0 represents heads, 1 represents tails
+        // Create the coin label
+        coinLabel = new JLabel();
+        coinLabel.setPreferredSize(new Dimension(headsIcon.getIconWidth(), headsIcon.getIconHeight()));
+        coinLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-            if (result == 0) {
-                headsCount++;
-            } else {
-                tailsCount++;
+        // Create the button
+        JButton tossButton = new JButton("Toss Coin");
+        tossButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Simulate a coin toss
+                int result = random.nextInt(2); // 0 represents heads, 1 represents tails
+
+                // Display the corresponding image
+                if (result == 0) {
+                    coinLabel.setIcon(headsIcon);
+                } else {
+                    coinLabel.setIcon(tailsIcon);
+                }
             }
+        });
 
+        // Create the layout
+        JPanel coinPanel = new JPanel();
+        coinPanel.add(coinLabel);
 
-            System.out.println("Toss " + (i + 1) + ": " + (result == 0 ? "Heads" : "Tails"));
-        }
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(tossButton);
 
-        // Print the statistics
-        System.out.println("Number of Heads: " + headsCount);
-        System.out.println("Number of Tails: " + tailsCount);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(coinPanel, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Set up the frame
+        setTitle("Coin Toss Simulation");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setContentPane(mainPanel);
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                CoinToss coinTossSimulation = new CoinToss();
+                coinTossSimulation.setVisible(true);
+            }
+        });
     }
 }
