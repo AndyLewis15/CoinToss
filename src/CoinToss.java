@@ -8,14 +8,16 @@ public class CoinToss extends JFrame {
     private JLabel coinLabel;
     private ImageIcon headsIcon;
     private ImageIcon tailsIcon;
+    private ImageIcon sideIcon;
 
     public CoinToss() {
         // Create an instance of the Random class
         Random random = new Random();
 
         // Load the heads and tails images
-        headsIcon = new ImageIcon("Heads.jpg"); // Provide the path to the heads image
-        tailsIcon = new ImageIcon("Tails.jpg"); // Provide the path to the tails image
+        headsIcon = new ImageIcon("Heads.jpg");
+        tailsIcon = new ImageIcon("Tails.jpg");
+        sideIcon = new ImageIcon("Side.jpg");
 
 
         // Create the coin label
@@ -29,13 +31,16 @@ public class CoinToss extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Simulate a coin toss
-                int result = random.nextInt(2); // 0 represents heads, 1 represents tails
+                int result = random.nextInt(25);
 
                 // Display the corresponding image
-                if (result == 0) {
+                if (result < 12) {
                     coinLabel.setIcon(headsIcon);
-                } else {
+                } else if (result < 24){
                     coinLabel.setIcon(tailsIcon);
+                }
+                else {
+                    coinLabel.setIcon(sideIcon);
                 }
             }
         });
