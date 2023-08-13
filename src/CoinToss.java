@@ -17,41 +17,34 @@ public class CoinToss extends JFrame {
     private int tailsCount = 0;
     private int sidesCount = 0;
 
-    public CoinToss() {
-        // Create an instance of the Random class
-        Random random = new Random();
+    private Random random = new Random();
 
-        // Load the heads and tails images
+    public CoinToss() {
         headsIcon = new ImageIcon("Heads.jpg");
         tailsIcon = new ImageIcon("Tails.jpg");
         sideIcon = new ImageIcon("Side.jpg");
 
-        // Create the coin label
         coinLabel = new JLabel();
         coinLabel.setPreferredSize(new Dimension(headsIcon.getIconWidth(), headsIcon.getIconHeight()));
         coinLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Create the button
         JButton tossButton = new JButton("Toss Coin");
         tossButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Simulate a coin toss
                 int result = random.nextInt(25);
 
-                // Update the tally counts
                 if (result < 12) {
                     headsCount++;
                 } else if (result < 24) {
                     tailsCount++;
                 } else {
                     sidesCount++;
+                    JOptionPane.showMessageDialog(CoinToss.this, "Side? I didn't know that could happen!", "Coin Toss Result", JOptionPane.INFORMATION_MESSAGE);
                 }
 
-                // Update the tally labels
                 updateTallyLabels();
 
-                // Display the corresponding image
                 if (result < 12) {
                     coinLabel.setIcon(headsIcon);
                 } else if (result < 24) {
@@ -62,13 +55,11 @@ public class CoinToss extends JFrame {
             }
         });
 
-        // Create the tally labels
         headsCountLabel = new JLabel("Heads: 0");
         tailsCountLabel = new JLabel("Tails: 0");
         sidesCountLabel = new JLabel("Sides: 0");
         updateTallyLabels();
 
-        // Create the layout
         JPanel coinPanel = new JPanel();
         coinPanel.add(coinLabel);
 
@@ -91,7 +82,6 @@ public class CoinToss extends JFrame {
         mainPanel.add(coinPanel, BorderLayout.CENTER);
         mainPanel.add(bottomPanel, BorderLayout.PAGE_END);
 
-        // Set up the frame
         setTitle("Coin Toss Simulation");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainPanel);
