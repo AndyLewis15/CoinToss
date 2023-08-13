@@ -31,11 +31,6 @@ public class CoinToss extends JFrame {
         coinLabel.setPreferredSize(new Dimension(headsIcon.getIconWidth(), headsIcon.getIconHeight()));
         coinLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Create the tally labels
-        headsCountLabel = new JLabel("Heads: 0");
-        tailsCountLabel = new JLabel("Tails: 0");
-        sidesCountLabel = new JLabel("Sides: 0");
-
         // Create the button
         JButton tossButton = new JButton("Toss Coin");
         tossButton.addActionListener(new ActionListener() {
@@ -54,9 +49,7 @@ public class CoinToss extends JFrame {
                 }
 
                 // Update the tally labels
-                headsCountLabel.setText("Heads: " + headsCount);
-                tailsCountLabel.setText("Tails: " + tailsCount);
-                sidesCountLabel.setText("Sides: " + sidesCount);
+                updateTallyLabels();
 
                 // Display the corresponding image
                 if (result < 12) {
@@ -69,12 +62,18 @@ public class CoinToss extends JFrame {
             }
         });
 
+        // Create the tally labels
+        headsCountLabel = new JLabel("Heads: 0");
+        tailsCountLabel = new JLabel("Tails: 0");
+        sidesCountLabel = new JLabel("Sides: 0");
+        updateTallyLabels();
+
         // Create the layout
         JPanel coinPanel = new JPanel();
         coinPanel.add(coinLabel);
 
         JPanel tallyPanel = new JPanel();
-        tallyPanel.setLayout(new GridLayout(3, 1));
+        tallyPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         tallyPanel.add(headsCountLabel);
         tallyPanel.add(tailsCountLabel);
         tallyPanel.add(sidesCountLabel);
@@ -82,11 +81,15 @@ public class CoinToss extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(tossButton);
 
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BorderLayout());
+        bottomPanel.add(tallyPanel, BorderLayout.PAGE_END);
+        bottomPanel.add(buttonPanel, BorderLayout.PAGE_START);
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(coinPanel, BorderLayout.CENTER);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-        mainPanel.add(tallyPanel, BorderLayout.EAST);
+        mainPanel.add(bottomPanel, BorderLayout.PAGE_END);
 
         // Set up the frame
         setTitle("Coin Toss Simulation");
@@ -94,6 +97,12 @@ public class CoinToss extends JFrame {
         setContentPane(mainPanel);
         pack();
         setLocationRelativeTo(null);
+    }
+
+    private void updateTallyLabels() {
+        headsCountLabel.setText("Heads: " + headsCount);
+        tailsCountLabel.setText("Tails: " + tailsCount);
+        sidesCountLabel.setText("Sides: " + sidesCount);
     }
 
     public static void main(String[] args) {
