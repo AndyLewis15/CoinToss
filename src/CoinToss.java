@@ -6,9 +6,16 @@ import java.util.Random;
 
 public class CoinToss extends JFrame {
     private JLabel coinLabel;
+    private JLabel headsCountLabel;
+    private JLabel tailsCountLabel;
+    private JLabel sidesCountLabel;
     private ImageIcon headsIcon;
     private ImageIcon tailsIcon;
     private ImageIcon sideIcon;
+
+    private int headsCount = 0;
+    private int tailsCount = 0;
+    private int sidesCount = 0;
 
     public CoinToss() {
         // Create an instance of the Random class
@@ -19,11 +26,15 @@ public class CoinToss extends JFrame {
         tailsIcon = new ImageIcon("Tails.jpg");
         sideIcon = new ImageIcon("Side.jpg");
 
-
         // Create the coin label
         coinLabel = new JLabel();
         coinLabel.setPreferredSize(new Dimension(headsIcon.getIconWidth(), headsIcon.getIconHeight()));
         coinLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Create the tally labels
+        headsCountLabel = new JLabel("Heads: 0");
+        tailsCountLabel = new JLabel("Tails: 0");
+        sidesCountLabel = new JLabel("Sides: 0");
 
         // Create the button
         JButton tossButton = new JButton("Toss Coin");
@@ -33,13 +44,26 @@ public class CoinToss extends JFrame {
                 // Simulate a coin toss
                 int result = random.nextInt(25);
 
+                // Update the tally counts
+                if (result < 12) {
+                    headsCount++;
+                } else if (result < 24) {
+                    tailsCount++;
+                } else {
+                    sidesCount++;
+                }
+
+                // Update the tally labels
+                headsCountLabel.setText("Heads: " + headsCount);
+                tailsCountLabel.setText("Tails: " + tailsCount);
+                sidesCountLabel.setText("Sides: " + sidesCount);
+
                 // Display the corresponding image
                 if (result < 12) {
                     coinLabel.setIcon(headsIcon);
-                } else if (result < 24){
+                } else if (result < 24) {
                     coinLabel.setIcon(tailsIcon);
-                }
-                else {
+                } else {
                     coinLabel.setIcon(sideIcon);
                 }
             }
@@ -49,6 +73,12 @@ public class CoinToss extends JFrame {
         JPanel coinPanel = new JPanel();
         coinPanel.add(coinLabel);
 
+        JPanel tallyPanel = new JPanel();
+        tallyPanel.setLayout(new GridLayout(3, 1));
+        tallyPanel.add(headsCountLabel);
+        tallyPanel.add(tailsCountLabel);
+        tallyPanel.add(sidesCountLabel);
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(tossButton);
 
@@ -56,6 +86,7 @@ public class CoinToss extends JFrame {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(coinPanel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        mainPanel.add(tallyPanel, BorderLayout.EAST);
 
         // Set up the frame
         setTitle("Coin Toss Simulation");
